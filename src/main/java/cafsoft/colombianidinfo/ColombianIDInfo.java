@@ -2,12 +2,6 @@ package cafsoft.colombianidinfo;
 
 public final class ColombianIDInfo {
 
-    public enum DocumentType {
-        IDENTITY_CARD,
-        CITIZENSHIP_CARD,
-        OTHER
-    }
-
     private DocumentType documentType = DocumentType.OTHER;
     private int documentNumber = 0;
     private String bloodType = "";
@@ -20,81 +14,89 @@ public final class ColombianIDInfo {
 
     private static String clean(String aPDF417Data) {
 
-        return aPDF417Data.replaceAll("\0"," ");
+        return aPDF417Data.replaceAll("\0", " ");
     }
 
-    private static String extract(String text, int iniPos, int size){
+    private static String extract(String text, int iniPos, int size) {
 
         return text.substring(iniPos, iniPos + size);
     }
 
     public static ColombianIDInfo builder(String aPDF417Data)
             throws Exception {
-        ColombianIDInfo card = new ColombianIDInfo();
+
+        ColombianIDInfo card = null;
         int disp = 0;
 
-        if (aPDF417Data.charAt(0) == '0'){
-            card.setDocumentType(DocumentType.CITIZENSHIP_CARD);
+        if (aPDF417Data.length() == 531) {
+            disp = 0;
+        } else if (aPDF417Data.length() == 532) {
+            disp = 1;
+        } else {
+            throw new Exception();
         }
-        else if (aPDF417Data.charAt(0) == 'I') {
+
+        card = new ColombianIDInfo();
+        if (aPDF417Data.charAt(0) == '0') {
+            card.setDocumentType(DocumentType.CITIZENSHIP_CARD);
+        } else if (aPDF417Data.charAt(0) == 'I') {
             card.setDocumentType(DocumentType.IDENTITY_CARD);
             disp = 1;
-        }
+        } else
+            throw new Exception();
 
-        if (aPDF417Data.length() >= (169 + disp)) {
-            String data = extract(aPDF417Data, 0, 169 + disp);
-            data = clean(data);
+        String data = extract(aPDF417Data, 0, 169 + disp);
+        data = clean(data);
 
-            // Extract document number
-            String documentNumber = extract(data,48, 10).trim();
-            card.setDocumentNumber(Integer.parseInt(documentNumber));
+        // Extract document number
+        String documentNumber = extract(data, 48, 10).trim();
+        card.setDocumentNumber(Integer.parseInt(documentNumber));
 
-            // Extract first family name
-            String firstFamilyName = extract(data, 58 + disp, 23).trim();
-            card.setFirstFamilyName(firstFamilyName);
+        // Extract first family name
+        String firstFamilyName = extract(data, 58 + disp, 23).trim();
+        card.setFirstFamilyName(firstFamilyName);
 
-            // Extract second family name
-            String secondFamilyName = extract(data, 81 + disp, 23).trim();
-            card.setSecondFamilyName(secondFamilyName);
+        // Extract second family name
+        String secondFamilyName = extract(data, 81 + disp, 23).trim();
+        card.setSecondFamilyName(secondFamilyName);
 
-            // Extract firstname
-            String firstName = extract(data, 104 + disp, 23).trim();
-            card.setFirstName(firstName);
+        // Extract firstname
+        String firstName = extract(data, 104 + disp, 23).trim();
+        card.setFirstName(firstName);
 
-            // Extract other names
-            String otherNames = extract(data,127 + disp, 23).trim();
-            card.setOtherNames(otherNames);
+        // Extract other names
+        String otherNames = extract(data, 127 + disp, 23).trim();
+        card.setOtherNames(otherNames);
 
-            // Extract gender
-            String gender = extract(data, 151 + disp, 1).trim();
-            card.setGender(gender);
+        // Extract gender
+        String gender = extract(data, 151 + disp, 1).trim();
+        card.setGender(gender);
 
-            // Extract date of birth
-            String dateOfBirth = extract(data,152 + disp, 8).trim();
-            card.setDateOfBirth(dateOfBirth);
+        // Extract date of birth
+        String dateOfBirth = extract(data, 152 + disp, 8).trim();
+        card.setDateOfBirth(dateOfBirth);
 
-            // Extract blood type
-            String bloodType = extract(data,166 + disp, 3).trim();
-            card.setBloodType(bloodType);
-        }
+        // Extract blood type
+        String bloodType = extract(data, 166 + disp, 3).trim();
+        card.setBloodType(bloodType);
+
 
         return card;
     }
 
-    public String getFamilyNames(){
+    public String getFamilyName() {
 
         return (getFirstFamilyName() + " " + getSecondFamilyName()).trim();
     }
 
-    public String getNames(){
+    public String getName() {
 
         return (getFirstName() + " " + getOtherNames()).trim();
     }
 
-
     public String getFullname() {
 
-        return getFamilyNames() + " " + getNames();
+        return getFamilyName() + " " + getName();
     }
 
     public int getDocumentNumber() {
@@ -128,7 +130,6 @@ public final class ColombianIDInfo {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
 
     public String getFirstFamilyName() {
         return firstFamilyName;
@@ -168,5 +169,11 @@ public final class ColombianIDInfo {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+
+    public enum DocumentType {
+        IDENTITY_CARD,
+        CITIZENSHIP_CARD,
+        OTHER
     }
 }
