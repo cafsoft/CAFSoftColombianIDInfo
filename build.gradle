@@ -1,9 +1,8 @@
-plugins {
-    id 'java-library'
-}
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
 
 group 'cafsoft.colombianidinfo'
-version '1.0.0'
+version '1.0.5'
 
 repositories {
     mavenCentral()
