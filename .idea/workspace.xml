@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Fix bugs in ColombianIDInfo.java class">
+    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Updated build.gradle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
@@ -138,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664369571386</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Updated build.gradle">
+      <created>1664372643384</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1664372643384</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,7 +166,8 @@
     <MESSAGE value="Add to git gradle-wrapper.properties" />
     <MESSAGE value="Updated ColombianIDInfo.java class" />
     <MESSAGE value="Fix bugs in ColombianIDInfo.java class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix bugs in ColombianIDInfo.java class" />
+    <MESSAGE value="Updated build.gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated build.gradle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
