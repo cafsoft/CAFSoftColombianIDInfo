@@ -25,7 +25,7 @@ public final class ColombianIDInfo {
     public static ColombianIDInfo builder(String aPDF417Data)
             throws Exception {
 
-        ColombianIDInfo card = null;
+        ColombianIDInfo info = null;
         int disp = 0;
 
         if (aPDF417Data.length() == 531) {
@@ -36,11 +36,11 @@ public final class ColombianIDInfo {
             throw new Exception();
         }
 
-        card = new ColombianIDInfo();
+        info = new ColombianIDInfo();
         if (aPDF417Data.charAt(0) == '0') {
-            card.setDocumentType(DocumentType.CITIZENSHIP_CARD);
+            info.setDocumentType(DocumentType.CITIZENSHIP_CARD);
         } else if (aPDF417Data.charAt(0) == 'I') {
-            card.setDocumentType(DocumentType.IDENTITY_CARD);
+            info.setDocumentType(DocumentType.IDENTITY_CARD);
             disp = 1;
         } else
             throw new Exception();
@@ -50,38 +50,51 @@ public final class ColombianIDInfo {
 
         // Extract document number
         String documentNumber = extract(data, 48, 10).trim();
-        card.setDocumentNumber(Integer.parseInt(documentNumber));
+        info.setDocumentNumber(Integer.parseInt(documentNumber));
 
         // Extract first family name
         String firstFamilyName = extract(data, 58 + disp, 23).trim();
-        card.setFirstFamilyName(firstFamilyName);
+        info.setFirstFamilyName(firstFamilyName);
 
         // Extract second family name
         String secondFamilyName = extract(data, 81 + disp, 23).trim();
-        card.setSecondFamilyName(secondFamilyName);
+        info.setSecondFamilyName(secondFamilyName);
 
         // Extract firstname
         String firstName = extract(data, 104 + disp, 23).trim();
-        card.setFirstName(firstName);
+        info.setFirstName(firstName);
 
         // Extract other names
         String otherNames = extract(data, 127 + disp, 23).trim();
-        card.setOtherNames(otherNames);
+        info.setOtherNames(otherNames);
 
         // Extract gender
         String gender = extract(data, 151 + disp, 1).trim();
-        card.setGender(gender);
+        info.setGender(gender);
 
         // Extract date of birth
-        String dateOfBirth = extract(data, 152 + disp, 8).trim();
-        card.setDateOfBirth(dateOfBirth);
+        final String dateOfBirth = extract(data, 152 + disp, 8).trim();
+        info.setDateOfBirth(dateOfBirth);
 
         // Extract blood type
-        String bloodType = extract(data, 166 + disp, 3).trim();
-        card.setBloodType(bloodType);
+        final String bloodType = extract(data, 166 + disp, 3).trim();
+        String abo = "";
+        char rh = '?';
+        if (bloodType.length() == 3) {
+            abo = extract(bloodType, 0, 2).trim();
+            rh = bloodType.charAt(2);
+        }else if (bloodType.length() == 2) {
+            abo = extract(bloodType, 0, 1).trim();
+            rh = bloodType.charAt(1);
+        } else
+            throw new Exception();
 
+        if ((abo.equals("A") || abo.equals("B") || abo.equals("AB")|| abo.equals("O")) && (rh == '+' || rh == '-'))
+            info.setBloodType(abo + rh);
+        else
+            throw new Exception();
 
-        return card;
+        return info;
     }
 
     public String getFamilyName() {
