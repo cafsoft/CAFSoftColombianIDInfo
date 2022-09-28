@@ -37,9 +37,11 @@ public final class ColombianIDInfo {
         }
 
         info = new ColombianIDInfo();
-        if (aPDF417Data.charAt(0) == '0') {
+
+        String documentTypeCode = extract(aPDF417Data, 0, 2);
+        if (documentTypeCode.equals("02") ||documentTypeCode.equals("03")) {
             info.setDocumentType(DocumentType.CITIZENSHIP_CARD);
-        } else if (aPDF417Data.charAt(0) == 'I') {
+        } else if (documentTypeCode.equals("I3")) {
             info.setDocumentType(DocumentType.IDENTITY_CARD);
             disp = 1;
         } else
