@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Fix ColombianIDInfo class">
+    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Updated build.gradle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cafsoft/colombianidinfo/ColombianIDInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cafsoft/colombianidinfo/ColombianIDInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664383151181</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Updated build.gradle">
+      <created>1664383309017</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1664383309017</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,9 +188,9 @@
     <MESSAGE value="Add to git gradle-wrapper.properties" />
     <MESSAGE value="Updated ColombianIDInfo.java class" />
     <MESSAGE value="Fix bugs in ColombianIDInfo.java class" />
-    <MESSAGE value="Updated build.gradle" />
     <MESSAGE value="Fix ColombianIDInfo class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix ColombianIDInfo class" />
+    <MESSAGE value="Updated build.gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated build.gradle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,7 +1,7 @@
 package cafsoft.colombianidinfo;
 
 public final class ColombianIDInfo {
-
+    private String documentTypeCode = "";
     private DocumentType documentType = DocumentType.OTHER;
     private int documentNumber = 0;
     private String bloodType = "";
@@ -40,8 +40,10 @@ public final class ColombianIDInfo {
 
         String documentTypeCode = extract(aPDF417Data, 0, 2);
         if (documentTypeCode.equals("02") ||documentTypeCode.equals("03")) {
+            info.setDocumentTypeCode(documentTypeCode);
             info.setDocumentType(DocumentType.CITIZENSHIP_CARD);
         } else if (documentTypeCode.equals("I3")) {
+            info.setDocumentTypeCode(documentTypeCode);
             info.setDocumentType(DocumentType.IDENTITY_CARD);
             disp = 1;
         } else
@@ -184,6 +186,14 @@ public final class ColombianIDInfo {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+
+    public String getDocumentTypeCode() {
+        return documentTypeCode;
+    }
+
+    public void setDocumentTypeCode(String documentTypeCode) {
+        this.documentTypeCode = documentTypeCode;
     }
 
     public enum DocumentType {

@@ -2,14 +2,14 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
 group 'cafsoft.colombianidinfo'
-version '1.0.7'
+version '1.0.8'
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = 'cafsoft.colombianidinfo'
             artifactId = 'library'
-            version = '1.0.7'
+            version = '1.0.8'
 
             from components.java
         }
