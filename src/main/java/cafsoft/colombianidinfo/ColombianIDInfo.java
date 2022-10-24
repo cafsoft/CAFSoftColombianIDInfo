@@ -1,6 +1,9 @@
 package cafsoft.colombianidinfo;
 
-public final class ColombianIDInfo {
+import java.io.Serializable;
+
+public final class ColombianIDInfo
+        implements Serializable {
     private String documentTypeCode = "";
     private DocumentType documentType = DocumentType.OTHER;
     private int documentNumber = 0;
@@ -22,7 +25,7 @@ public final class ColombianIDInfo {
         return text.substring(iniPos, iniPos + size);
     }
 
-    public static ColombianIDInfo builder(String aPDF417Data)
+    public static ColombianIDInfo decode(String aPDF417Data)
             throws Exception {
 
         ColombianIDInfo info = null;
@@ -93,10 +96,13 @@ public final class ColombianIDInfo {
         } else
             throw new Exception();
 
-        if ((abo.equals("A") || abo.equals("B") || abo.equals("AB")|| abo.equals("O")) && (rh == '+' || rh == '-'))
-            info.setBloodType(abo + rh);
-        else
+        if (!(abo.equals("A") || abo.equals("B") || abo.equals("AB")|| abo.equals("O")))
+                throw new Exception();
+
+        if (!(rh == '+' || rh == '-'))
             throw new Exception();
+
+        info.setBloodType(bloodType);
 
         return info;
     }
