@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public final class ColombianIDInfo
         implements Serializable {
+
     private String documentTypeCode = "";
     private DocumentType documentType = DocumentType.OTHER;
     private int documentNumber = 0;
@@ -28,79 +29,101 @@ public final class ColombianIDInfo
     public static ColombianIDInfo decode(String aPDF417Data)
             throws Exception {
 
-        ColombianIDInfo info = null;
-        int disp = 0;
+        String documentTypeCode = "";
+        DocumentType documentType = DocumentType.OTHER;
+        String documentNumber = "";
+        String firstFamilyName = "";
+        String secondFamilyName = "";
+        String firstName = "";
+        String otherNames = "";
+        String gender = "";
+        String dateOfBirth = "";
+        String bloodType = "";
 
-        if (aPDF417Data.length() == 531) {
-            disp = 0;
-        } else if (aPDF417Data.length() == 532) {
-            disp = 1;
-        } else {
-            throw new Exception();
+        String data = "";
+
+        ColombianIDInfo info = null;
+
+        if (aPDF417Data.length() != 531 && aPDF417Data.length() != 532) {
+            throw new Exception("Error: invalid identification document information");
+        }
+
+        documentTypeCode = extract(aPDF417Data, 0, 2);
+        if (documentTypeCode.equals("02") ||documentTypeCode.equals("03")) {
+            documentType = DocumentType.CITIZENSHIP_CARD;
+        } else if (documentTypeCode.equals("I3")) {
+            documentType = DocumentType.IDENTITY_CARD;
+        } else
+            throw new Exception("Error: invalid identification document type");
+
+        switch (documentType){
+            case CITIZENSHIP_CARD:
+                data = clean(extract(aPDF417Data, 0, 169));
+                // Extract document number
+                documentNumber = extract(data, 48, 10).trim();
+                // Extract first family name
+                firstFamilyName = extract(data, 58, 23).trim();
+                // Extract second family name
+                secondFamilyName = extract(data, 81, 23).trim();
+                // Extract firstname
+                firstName = extract(data, 104, 23).trim();
+                // Extract other names
+                otherNames = extract(data, 127, 23).trim();
+                // Extract gender
+                gender = extract(data, 151, 1).trim();
+                // Extract date of birth (format YYYYMMDD)
+                dateOfBirth = extract(data, 152, 8).trim();
+                // Extract blood type (the ABO and Rh systems)
+                bloodType = extract(data, 166, 3).trim();
+                break;
+
+            case IDENTITY_CARD:
+                data = clean(extract(aPDF417Data, 0, 170));
+                // Extract document number
+                documentNumber = extract(data, 48, 10).trim();
+                // Extract first family name
+                firstFamilyName = extract(data, 59, 23).trim();
+                // Extract second family name
+                secondFamilyName = extract(data, 82, 23).trim();
+                // Extract second family name
+                firstName = extract(data, 105, 23).trim();
+                // Extract other names
+                otherNames = extract(data, 128, 23).trim();
+                // Extract gender
+                gender = extract(data, 152, 1).trim();
+                // Extract date of birth (format YYYYMMDD)
+                dateOfBirth = extract(data, 153, 8).trim();
+                // Extract blood type (the ABO and Rh systems)
+                bloodType = extract(data, 167, 3).trim();
+                break;
         }
 
         info = new ColombianIDInfo();
-
-        String documentTypeCode = extract(aPDF417Data, 0, 2);
-        if (documentTypeCode.equals("02") ||documentTypeCode.equals("03")) {
-            info.setDocumentTypeCode(documentTypeCode);
-            info.setDocumentType(DocumentType.CITIZENSHIP_CARD);
-        } else if (documentTypeCode.equals("I3")) {
-            info.setDocumentTypeCode(documentTypeCode);
-            info.setDocumentType(DocumentType.IDENTITY_CARD);
-            disp = 1;
-        } else
-            throw new Exception();
-
-        String data = extract(aPDF417Data, 0, 169 + disp);
-        data = clean(data);
-
-        // Extract document number
-        String documentNumber = extract(data, 48, 10).trim();
+        info.setDocumentTypeCode(documentTypeCode);
         info.setDocumentNumber(Integer.parseInt(documentNumber));
-
-        // Extract first family name
-        String firstFamilyName = extract(data, 58 + disp, 23).trim();
         info.setFirstFamilyName(firstFamilyName);
-
-        // Extract second family name
-        String secondFamilyName = extract(data, 81 + disp, 23).trim();
         info.setSecondFamilyName(secondFamilyName);
-
-        // Extract firstname
-        String firstName = extract(data, 104 + disp, 23).trim();
         info.setFirstName(firstName);
-
-        // Extract other names
-        String otherNames = extract(data, 127 + disp, 23).trim();
         info.setOtherNames(otherNames);
-
-        // Extract gender
-        String gender = extract(data, 151 + disp, 1).trim();
         info.setGender(gender);
-
-        // Extract date of birth
-        final String dateOfBirth = extract(data, 152 + disp, 8).trim();
         info.setDateOfBirth(dateOfBirth);
 
-        // Extract blood type
-        final String bloodType = extract(data, 166 + disp, 3).trim();
-        String abo = "";
+        String bloodGroup = "";
         char rh = '?';
         if (bloodType.length() == 3) {
-            abo = extract(bloodType, 0, 2).trim();
+            bloodGroup = extract(bloodType, 0, 2).trim();
             rh = bloodType.charAt(2);
         }else if (bloodType.length() == 2) {
-            abo = extract(bloodType, 0, 1).trim();
+            bloodGroup = extract(bloodType, 0, 1).trim();
             rh = bloodType.charAt(1);
         } else
             throw new Exception();
 
-        if (!(abo.equals("A") || abo.equals("B") || abo.equals("AB")|| abo.equals("O")))
-                throw new Exception();
+        if (!(bloodGroup.equals("A") || bloodGroup.equals("B") || bloodGroup.equals("AB")|| bloodGroup.equals("O")))
+                throw new Exception("Error: Invalid ABO value");
 
         if (!(rh == '+' || rh == '-'))
-            throw new Exception();
+            throw new Exception("Error: Invalid rh value");
 
         info.setBloodType(bloodType);
 
@@ -199,6 +222,13 @@ public final class ColombianIDInfo
     }
 
     public void setDocumentTypeCode(String documentTypeCode) {
+        if (documentTypeCode.equals("02") || documentTypeCode.equals("03"))
+            documentType = DocumentType.CITIZENSHIP_CARD;
+        else if (documentTypeCode.equals("I3"))
+            documentType = DocumentType.IDENTITY_CARD;
+        else
+            documentType = DocumentType.OTHER;
+
         this.documentTypeCode = documentTypeCode;
     }
 

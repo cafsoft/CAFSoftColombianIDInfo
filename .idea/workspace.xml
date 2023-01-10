@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Updated build.gradle">
+    <list default="true" id="df55c164-b000-46d2-8c9b-1d288c634a94" name="Changes" comment="Update ColombianIDInfo class">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cafsoft/colombianidinfo/ColombianIDInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cafsoft/colombianidinfo/ColombianIDInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +44,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
   }
 }</component>
   <component name="RunManager">
@@ -167,7 +167,21 @@
       <option name="project" value="LOCAL" />
       <updated>1664383309017</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Update ColombianIDInfo class and build.gradle file">
+      <created>1664387061283</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1664387061283</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Update ColombianIDInfo class">
+      <created>1666581568886</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1666581568886</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,7 +204,9 @@
     <MESSAGE value="Fix bugs in ColombianIDInfo.java class" />
     <MESSAGE value="Fix ColombianIDInfo class" />
     <MESSAGE value="Updated build.gradle" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated build.gradle" />
+    <MESSAGE value="Update ColombianIDInfo class and build.gradle file" />
+    <MESSAGE value="Update ColombianIDInfo class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update ColombianIDInfo class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -202,7 +218,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/cafsoft/colombianidinfo/ColombianIDInfo.java</url>
-          <line>30</line>
+          <line>46</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
