@@ -41,7 +41,6 @@ public final class ColombianIDInfo
         String bloodType = "";
 
         String data = "";
-
         ColombianIDInfo info = null;
 
         if (aPDF417Data.length() != 531 && aPDF417Data.length() != 532) {
