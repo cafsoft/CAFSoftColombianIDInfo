@@ -37,7 +37,7 @@ public final class ColombianIDInfo
         return text.substring(iniPos, iniPos + size);
     }
 
-    private static String fixMunicipalityCode(String code) {
+    private static String fixBirthplaceCode(String code) {
         String[] stateCodes = {
                 "01", "03", "05", "07", "09", "11", "12", "13",
                 "15", "17", "19", "21", "23", "24", "25", "26",
@@ -67,7 +67,7 @@ public final class ColombianIDInfo
         String otherNames = "";
         String gender = "";
         String dateOfBirth = "";
-        String municipalityCode = "";
+        String BirthplaceCode = "";
         String bloodType = "";
 
         String data = "";
@@ -103,8 +103,8 @@ public final class ColombianIDInfo
                 // Extract date of birth (format YYYYMMDD)
                 dateOfBirth = extract(data, 152, 8).trim();
                 // Extract municipality code (Pre divipola 2011)
-                municipalityCode = extract(data, 160, 6);
-                municipalityCode = fixMunicipalityCode(municipalityCode);
+                BirthplaceCode = extract(data, 160, 6);
+                BirthplaceCode = fixBirthplaceCode(BirthplaceCode);
                 // Extract blood type (the ABO and Rh systems)
                 bloodType = extract(data, 166, 3).trim();
                 break;
@@ -126,8 +126,8 @@ public final class ColombianIDInfo
                 // Extract date of birth (format YYYYMMDD)
                 dateOfBirth = extract(data, 153, 8).trim();
                 // Extract municipality code (Pre DIVIPOLA 2011)
-                municipalityCode = extract(data, 161, 6);
-                municipalityCode = fixMunicipalityCode(municipalityCode);
+                BirthplaceCode = extract(data, 161, 6);
+                BirthplaceCode = fixBirthplaceCode(BirthplaceCode);
                 // Extract blood type (the ABO and Rh systems)
                 bloodType = extract(data, 167, 3).trim();
                 break;
@@ -142,7 +142,7 @@ public final class ColombianIDInfo
         info.setOtherNames(otherNames);
         info.setGender(gender);
         info.setDateOfBirth(dateOfBirth);
-        info.setBirthplaceCode(municipalityCode);
+        info.setBirthplaceCode(BirthplaceCode);
 
         String bloodGroup = "";
         char rh = '?';
