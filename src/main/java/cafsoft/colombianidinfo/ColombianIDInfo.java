@@ -15,6 +15,17 @@ public final class ColombianIDInfo
     private String secondFamilyName = "";
     private String firstName = "";
     private String otherNames = "";
+    private String birthplaceCode = "";
+
+
+    public String getBirthplaceCode() {
+        return birthplaceCode;
+    }
+
+    public void setBirthplaceCode(String birthplaceCode) {
+        this.birthplaceCode = birthplaceCode;
+    }
+
 
     private static String clean(String aPDF417Data) {
 
@@ -24,6 +35,24 @@ public final class ColombianIDInfo
     private static String extract(String text, int iniPos, int size) {
 
         return text.substring(iniPos, iniPos + size);
+    }
+
+    private static String fixMunicipalityCode(String code) {
+        String[] stateCodes = {
+                "01", "03", "05", "07", "09", "11", "12", "13",
+                "15", "17", "19", "21", "23", "24", "25", "26",
+                "27", "28", "29", "31", "40", "44", "46", "48",
+                "50", "52", "54", "56", "60", "64", "68", "72"
+        };
+
+        for (String stateCode : stateCodes) {
+            if (code.substring(0, 2).equals(stateCode))
+                return code.substring(0, 5);
+            else if (code.substring(1, 3).equals(stateCode))
+                return code.substring(1, 6);
+        }
+
+        return code;
     }
 
     public static ColombianIDInfo decode(String aPDF417Data)
@@ -38,6 +67,7 @@ public final class ColombianIDInfo
         String otherNames = "";
         String gender = "";
         String dateOfBirth = "";
+        String municipalityCode = "";
         String bloodType = "";
 
         String data = "";
@@ -48,14 +78,14 @@ public final class ColombianIDInfo
         }
 
         documentTypeCode = extract(aPDF417Data, 0, 2);
-        if (documentTypeCode.equals("02") ||documentTypeCode.equals("03")) {
+        if (documentTypeCode.equals("02") || documentTypeCode.equals("03")) {
             documentType = DocumentType.CITIZENSHIP_CARD;
         } else if (documentTypeCode.equals("I3")) {
             documentType = DocumentType.IDENTITY_CARD;
         } else
             throw new Exception("Error: invalid identification document type");
 
-        switch (documentType){
+        switch (documentType) {
             case CITIZENSHIP_CARD:
                 data = clean(extract(aPDF417Data, 0, 169));
                 // Extract document number
@@ -72,6 +102,9 @@ public final class ColombianIDInfo
                 gender = extract(data, 151, 1).trim();
                 // Extract date of birth (format YYYYMMDD)
                 dateOfBirth = extract(data, 152, 8).trim();
+                // Extract municipality code (Pre divipola 2011)
+                municipalityCode = extract(data, 160, 6);
+                municipalityCode = fixMunicipalityCode(municipalityCode);
                 // Extract blood type (the ABO and Rh systems)
                 bloodType = extract(data, 166, 3).trim();
                 break;
@@ -92,6 +125,9 @@ public final class ColombianIDInfo
                 gender = extract(data, 152, 1).trim();
                 // Extract date of birth (format YYYYMMDD)
                 dateOfBirth = extract(data, 153, 8).trim();
+                // Extract municipality code (Pre DIVIPOLA 2011)
+                municipalityCode = extract(data, 161, 6);
+                municipalityCode = fixMunicipalityCode(municipalityCode);
                 // Extract blood type (the ABO and Rh systems)
                 bloodType = extract(data, 167, 3).trim();
                 break;
@@ -106,20 +142,21 @@ public final class ColombianIDInfo
         info.setOtherNames(otherNames);
         info.setGender(gender);
         info.setDateOfBirth(dateOfBirth);
+        info.setBirthplaceCode(municipalityCode);
 
         String bloodGroup = "";
         char rh = '?';
         if (bloodType.length() == 3) {
             bloodGroup = extract(bloodType, 0, 2).trim();
             rh = bloodType.charAt(2);
-        }else if (bloodType.length() == 2) {
+        } else if (bloodType.length() == 2) {
             bloodGroup = extract(bloodType, 0, 1).trim();
             rh = bloodType.charAt(1);
         } else
             throw new Exception();
 
-        if (!(bloodGroup.equals("A") || bloodGroup.equals("B") || bloodGroup.equals("AB")|| bloodGroup.equals("O")))
-                throw new Exception("Error: Invalid ABO value");
+        if (!(bloodGroup.equals("A") || bloodGroup.equals("B") || bloodGroup.equals("AB") || bloodGroup.equals("O")))
+            throw new Exception("Error: Invalid ABO value");
 
         if (!(rh == '+' || rh == '-'))
             throw new Exception("Error: Invalid rh value");
