@@ -6,10 +6,10 @@ public final class ColombianIDInfo
         implements Serializable {
 
     private String documentTypeCode = "";
-    private DocumentType documentType = DocumentType.OTHER;
+    private DocumentType documentType = DocumentType.UNKNOW;
     private int documentNumber = 0;
     private String bloodType = "";
-    private String dateOfBirth = "";
+    private String birthdate = "";
     private String gender = "";
     private String firstFamilyName = "";
     private String secondFamilyName = "";
@@ -45,11 +45,13 @@ public final class ColombianIDInfo
                 "50", "52", "54", "56", "60", "64", "68", "72"
         };
 
-        for (String stateCode : stateCodes) {
-            if (code.substring(0, 2).equals(stateCode))
-                return code.substring(0, 5);
-            else if (code.substring(1, 3).equals(stateCode))
-                return code.substring(1, 6);
+        if (code.charAt(0) == '0' || code.charAt(code.length()-1) == '0') {
+            for (String stateCode : stateCodes) {
+                if (code.substring(0, 2).equals(stateCode))
+                    return code.substring(0, 5);
+                else if (code.substring(1, 3).equals(stateCode))
+                    return code.substring(1, 6);
+            }
         }
 
         return code;
@@ -59,7 +61,7 @@ public final class ColombianIDInfo
             throws Exception {
 
         String documentTypeCode = "";
-        DocumentType documentType = DocumentType.OTHER;
+        DocumentType documentType = DocumentType.UNKNOW;
         String documentNumber = "";
         String firstFamilyName = "";
         String secondFamilyName = "";
@@ -141,7 +143,7 @@ public final class ColombianIDInfo
         info.setFirstName(firstName);
         info.setOtherNames(otherNames);
         info.setGender(gender);
-        info.setDateOfBirth(dateOfBirth);
+        info.setBirthdate(dateOfBirth);
         info.setBirthplaceCode(BirthplaceCode);
 
         String bloodGroup = "";
@@ -197,12 +199,12 @@ public final class ColombianIDInfo
         this.bloodType = bloodType;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getGender() {
@@ -263,7 +265,7 @@ public final class ColombianIDInfo
         else if (documentTypeCode.equals("I3"))
             documentType = DocumentType.IDENTITY_CARD;
         else
-            documentType = DocumentType.OTHER;
+            documentType = DocumentType.UNKNOW;
 
         this.documentTypeCode = documentTypeCode;
     }
@@ -271,6 +273,6 @@ public final class ColombianIDInfo
     public enum DocumentType {
         IDENTITY_CARD,
         CITIZENSHIP_CARD,
-        OTHER
+        UNKNOW
     }
 }
